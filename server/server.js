@@ -11,10 +11,9 @@
 //     rejectUnauthorized: false,
 //   },
 // });
-
 // const app = express();
-// const wss = new WebSocket.Server({ noServer: true });
-
+// const server = http.createServer(app);
+// const wss = new WebSocket.Server({ server });
 // const games = [];
 
 // // Function to check if the game is over
@@ -86,6 +85,7 @@
 // const reactStaticDir = new URL('../client/build', import.meta.url).pathname;
 // const uploadsStaticDir = new URL('public', import.meta.url).pathname;
 
+// app.use(cors());
 // app.use(express.static(reactStaticDir));
 // app.use(express.static(uploadsStaticDir));
 // app.use(express.json());

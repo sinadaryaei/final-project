@@ -1,23 +1,17 @@
-import Board from './components/Board';
-import Status from './Status';
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import TicTacToe from './TicTacToe';
+import './App.css';
+import calculateWinner from './gameUtils';
 
-const App = () => {
-  const [board, setBoard] = useState(Array(9).fill(null));
+const socket = new window.WebSocket('ws://localhost:8000'); // Use window.WebSocket
+
+function App() {
+  const initialBoard = Array(9).fill(null);
+  const [board, setBoard] = useState(initialBoard);
   const [xIsNext, setXIsNext] = useState(true);
   const [winner, setWinner] = useState(null);
 
-  useEffect(() => {
-    // This effect runs when the component mounts and whenever the state changes.
-    // It checks if there is a winner and sets the `winner` state variable accordingly.
-    const newWinner = calculateWinner(board);
-    if (newWinner) {
-      setWinner(newWinner);
-    }
-  }, [board]);
-
-  function handleClick(i) {
+  const handleClick = (i) => {
     if (board[i] || winner) {
       return;
     }
@@ -31,45 +25,34 @@ const App = () => {
     if (newWinner) {
       setWinner(newWinner);
     }
-  }
 
-  const calculateWinner = (board) => {
-    // Check if there is a winner in the rows.
-    for (let i = 0; i < 3; i++) {
-      if (board[i] === board[i + 3] && board[i] === board[i + 6] && board[i]) {
-        return board[i];
-      }
+    if (socket.readyState === window.WebSocket.OPEN) {
+      socket.send(JSON.stringify({ move: i }));
     }
+  };
 
-    // Check if there is a winner in the columns.
-    for (let i = 0; i < 3; i++) {
-      if (
-        board[i * 3] === board[i * 3 + 1] &&
-        board[i * 3] === board[i * 3 + 2] &&
-        board[i * 3]
-      ) {
-        return board[i * 3];
-      }
-    }
-
-    // Check if there is a winner in the diagonals.
-    if (board[0] === board[4] && board[0] === board[8] && board[0]) {
-      return board[0];
-    } else if (board[2] === board[4] && board[2] === board[6] && board[2]) {
-      return board[2];
-    }
-
-    // There is no winner.
-    return null;
+  const handleReset = () => {
+    setBoard(initialBoard);
+    setXIsNext(true);
+    setWinner(null);
   };
 
   return (
     <div>
-      <Board board={board} onClick={handleClick} />
-      <Status winner={winner} xIsNext={xIsNext} />
-      <button onClick={() => setBoard(Array(9).fill(null))}>Reset</button>
+      <h1>Tic Tac Toe</h1>
+      <div className="game">
+        <TicTacToe
+          board={board}
+          xIsNext={xIsNext}
+          winner={winner}
+          onClick={handleClick}
+        />
+      </div>
+      <button className="reset-btn" onClick={handleReset}>
+        Reset
+      </button>
     </div>
   );
-};
+}
 
 export default App;
