@@ -3,8 +3,8 @@ import TicTacToe from './TicTacToe';
 import './App.css';
 import calculateWinner from './gameUtils';
 
-const socket = new window.WebSocket('ws://localhost:8000'); // Use window.WebSocket
-
+const socket = new window.WebSocket('ws://server:8000');
+console.log('WebSocket server listening on port 8000');
 function App() {
   const initialBoard = Array(9).fill(null);
   const [board, setBoard] = useState(initialBoard);

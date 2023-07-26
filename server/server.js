@@ -12,8 +12,10 @@
 //   },
 // });
 // const app = express();
-// const server = http.createServer(app);
+
 // const wss = new WebSocket.Server({ server });
+// console.log('WebSocket server listening on port 8000');
+
 // const games = [];
 
 // // Function to check if the game is over
