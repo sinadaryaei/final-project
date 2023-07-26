@@ -1,22 +1,12 @@
-// import Board from "./Board";
-// import Cell from "./Cell";
-// import Status from "./Status";
-// import { useState, useEffect } from 'react';
-// import { useSelector } from 'react-redux';
+// import React from "react";
+// import Board from './Board';
+// import Cell from './Cell';
+// import Status from './Status';
 
-// const App = () => {
+// const TicTacToe = () => {
 //   const [board, setBoard] = useState(Array(9).fill(null));
 //   const [xIsNext, setXIsNext] = useState(true);
 //   const [winner, setWinner] = useState(null);
-
-//   useEffect(() => {
-//     // This effect runs when the component mounts and whenever the state changes.
-//     // It checks if there is a winner and sets the `winner` state variable accordingly.
-//     const newWinner = calculateWinner(board);
-//     if (newWinner) {
-//       setWinner(newWinner);
-//     }
-//   }, [board]);
 
 //   function handleClick(i) {
 //     if (board[i] || winner) {
@@ -69,4 +59,4 @@
 //   );
 // };
 
-// export default App;
+// export default TicTacToe;
